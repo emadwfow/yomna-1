@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>حل مسائل جدول الضرب 6</title>
+  <style>
+    body {
+      background-image: url("سحاب.jpg");
+      background-position: center;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+    
+    #problem {
+      text-align: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    
+    form {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    form label {
+      margin-right: 5px;
+      font-size: 18px;
+      color: #333;
+    }
+    
+    form input[type="number"] {
+      padding: 5px;
+      font-size: 18px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    
+    form button {
+      padding: 5px 10px;
+      font-size: 18px;
+      border-radius: 5px;
+      background-color: #4caf50;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+    
+    #result {
+      text-align: center;
+      font-size: 20px;
+      color: #333;
+    }
+
+    .balloon {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    @media (max-width: 768px) {
+      /* تعديلات للأجهزة ذات حجم أقل من 768 بكسل */
+      h1 {
+        font-size: 24px;
+      }
+      
+      #problem {
+        font-size: 20px;
+        margin-bottom: 10px;
+      }
+      
+      form label {
+        font-size: 16px;
+      }
+      
+      form input[type="number"] {
+        font-size: 16px;
+      }
+      
+      form button {
+        padding: 3px 8px;
+        font-size: 16px;
+      }
+      
+      #result {
+        font-size: 18px;
+      }
+    } 
+  </style>
+</head>
+<body>
+  <h1>حل مسائل جدول الضرب 6</h1>
+  
+  <div id="problem"></div>
+  <form>
+    <label for="answer">الجواب:</label>
+    <input type="number" id="answer" name="answer" required>
+    <button type="submit">تحقق</button>
+  </form>
+
+  <div id="result"></div>
+
+  <audio id="correct-audio" src="اجابة صحيحة.mp3"></audio>
+  <audio id="wrong-audio" src="اجابة خاطئة.mp3"></audio>
+
+  <script>
+    const problemDiv = document.getElementById('problem');
+    const form = document.querySelector('form');
+    const resultDiv = document.getElementById('result');
+    const correctAudio = document.getElementById('correct-audio');
+    const wrongAudio = document.getElementById('wrong-audio');
+
+    const generateProblem = () => {
+      const number = Math.floor(Math.random() * 12) + 1;
+      const problem = `ما هو ناتج ضرب ${number} × 6؟`;
+      problemDiv.innerHTML = problem;
+      form.reset();
+      resultDiv.innerHTML = '';
+    };
+
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+      const answer = parseInt(document.getElementById('answer').value);
+      const number = parseInt(problemDiv.innerHTML.match(/\d+/));
+      const expectedAnswer = number * 6;
+      const result = (answer === expectedAnswer) ? 'إجابة صحيحة!' : 'إجابة خاطئة!';
+      resultDiv.innerHTML = result;
+      if (answer === expectedAnswer) {
+        const balloon = document.createElement('img');
+        balloon.className = 'balloon';
+        balloon.src = 'balloons.gif';
+        document.body.appendChild(balloon);
+        correctAudio.play();
+      } else {
+        wrongAudio.play();
+      }
+      setTimeout(function() {
+        while (document.body.getElementsByClassName('balloon').length > 0) {
+          document.body.getElementsByClassName('balloon')[0].remove();
+        }
+        generateProblem();
+      }, 3000);
+    });
+
+    generateProblem();
+  </script>
+</body>
+</html>
